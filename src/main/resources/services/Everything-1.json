@@ -1,8 +1,8 @@
 {
-  "@class" : "org.apereo.cas.services.RegexRegisteredService",
-  "serviceId" : ".*",
-  "name" : "Everything",
-  "id" : 1,
-  "description" : "Everything is accepted by this definition.",
-  "evaluationOrder" : 10000
+  "@class": "org.apereo.cas.services.OidcRegisteredService",
+  "clientId": "client",
+  "clientSecret": "secret",
+  "serviceId": "https://localhost:8443/test/a/CAS/callback",
+  "name": "OIDC",
+  "id": 1
 }
