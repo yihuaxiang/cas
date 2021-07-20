@@ -2,7 +2,8 @@
   "@class": "org.apereo.cas.services.OidcRegisteredService",
   "clientId": "client",
   "clientSecret": "secret",
-  "serviceId": "https://.+/test/a/CAS/callback.+",
+  "serviceId": "https://.+/test/a/CAS/callback.*",
   "name": "OIDC",
   "id": 1
 }
+https://staging.certification.openid.net/test/a/CAS/callback

@@ -6,7 +6,7 @@
         </Console>
     </Appenders>
     <Loggers>
-        <AsyncLogger name="org.apereo.cas" level="trace"  />
+        <AsyncLogger name="org.apereo.cas" level="debug"  />
         <AsyncLogger name="org.apereo.cas.util" level="warn"  />
         <AsyncLogger name="org.springframework.web" level="info"  />
         <AsyncLogger name="org.pac4j" level="info"  />
