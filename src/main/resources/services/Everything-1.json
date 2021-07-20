@@ -4,5 +4,8 @@
   "clientSecret": "secret",
   "serviceId": "https://.+/test/a/CAS/callback.*",
   "name": "OIDC",
-  "id": 1
+  "id": 1,
+  "scopes" : [ "java.util.HashSet", 
+    [ "openid", "profile", "email", "address", "phone", "offline_access" ]
+  ]
 }
