@@ -14,7 +14,7 @@
         "birthdate":["1970-05-15"],
         "zoneinfo":["America/Los_Angeles"],
         "locale":["en-US"],
-        "updated_at":["1558450884133"],
+        "updated_at":[1558450884133],
         "email_verified":[true],
         "address":[{ "formatted": "1234 E Main Street, Somewhere, CA 82091" }],
         "phone_number":["+1 (425) 555-1212"],
