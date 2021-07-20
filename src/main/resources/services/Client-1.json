@@ -3,7 +3,7 @@
   "clientId": "client",
   "clientSecret": "secret",
   "serviceId": "https://.+/test/a/CAS/callback.*",
-  "name": "OIDC",
+  "name": "Client",
   "id": 1,
   "scopes" : [ "java.util.HashSet", 
     [ "openid", "profile", "email", "address", "phone", "offline_access" ]
