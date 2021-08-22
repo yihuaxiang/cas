@@ -1,1 +1,1 @@
-web:    java $JAVA_OPTS -jar target/casconfigserver.war --server.port=$PORT --server.ssl.enabled=false --cas.server.http.enabled=false
+web:    java $JAVA_OPTS -jar build/libs/casconfigserver.war --server.port=$PORT --server.ssl.enabled=false --cas.server.http.enabled=false
