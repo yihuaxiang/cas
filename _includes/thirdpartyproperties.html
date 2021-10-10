@@ -1,0 +1,174 @@
+{% assign thirdPartyPropertiesRandomNumber = include.id %}
+{% assign thirdParty = include.thirdParty | split: "," %}
+{% assign thirdPartyExactMatch = include.thirdPartyExactMatch | split: "," %}
+{% assign thirdPartyStartsWith = include.thirdPartyStartsWith | split: "," %}
+{% assign excludes = include.excludes | split: "," %}
+{% assign forcePropertyTabsOnClick = include.forcePropertyTabsOnClick | default: "false" %}
+
+{% assign textAreaThirdPartyProperties = blank %}
+
+{% unless include.disableSearch == "true" %} 
+    {% capture copyTarget %}#copyAreaThirdPartyProperties{{ thirdPartyPropertiesRandomNumber }}{% endcapture %}
+    {% capture searchTarget %}tableThirdPartyProperties{{ thirdPartyPropertiesRandomNumber }}{% endcapture %}
+    {% include propertiestoolbar.html copyTarget=copyTarget searchTarget=searchTarget %}
+{% endunless %}
+
+<p/>
+{% assign paginatedClass = "" %}
+{% unless include.disablePagination == "true" %} 
+    {% assign paginatedClass = "paginated-table" %}
+    <nav id="navThirdPartyProperties{{ thirdPartyPropertiesRandomNumber }}">
+        <ul class="pagination pagination-sm justify-content-end">
+            <li class="page-item">
+                <a class="page-link" href="javascript:previous('tableThirdPartyProperties{{ thirdPartyPropertiesRandomNumber }}')" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span> Previous
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link active" href="javascript:next('tableThirdPartyProperties{{ thirdPartyPropertiesRandomNumber }}')">
+                    Next <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+{% endunless %}
+
+<table class="properties {{ paginatedClass }}" id='tableThirdPartyProperties{{ thirdPartyPropertiesRandomNumber }}'>
+    <tbody>
+
+    {% for cfg in site.data[siteDataVersion]["third-party"] %}
+        {% assign configBlock = cfg[1] %}
+
+        {% for config in configBlock %}
+
+            {% for tp in thirdParty %}
+                {% if config.name contains tp %}
+                    {% assign foundExcluded = false %}
+                    {% for ex in excludes %}
+                        {% if config.name contains ex %}
+                            {% assign foundExcluded = true %}
+                        {% endif %}
+                    {% endfor %}
+                    {% unless foundExcluded == true %}
+                        {% assign textAreaThirdPartyProperties = textAreaThirdPartyProperties
+                            | append: "# "
+                            | append: config.shortDescription | strip_html
+                            | append: "&#13;&#10;"
+                            | append: "# "
+                            | append: config.name | replace: "[]", "[0]"
+                            | append: "="
+                            | append: config.defaultValue
+                            | append: "&#13;&#10;"
+                            | append: "&#13;&#10;" %}
+
+                        {% capture renderedProperties %}{% include casproperty.html
+                            name=config.name
+                            owner=config.owner
+                            defaultValue=config.defaultValue
+                            description=config.description
+                            duration=config.duration
+                            expressionLanguage=config.expressionLanguage
+                            deprecationLevel=config.deprecationLevel
+                            deprecationReplacement=config.deprecationReplacement %}{% endcapture %}
+                        {{ renderedProperties | markdownify }}
+
+                    {% endunless %}
+                {% endif %}
+            {% endfor %}
+
+            {% for exm in thirdPartyExactMatch %}
+                {% if config.name == exm %}
+                    {% assign foundExcluded = false %}
+                    {% for ex in excludes %}
+                        {% if config.name contains ex %}
+                            {% assign foundExcluded = true %}
+                        {% endif %}
+                    {% endfor %}
+                    {% unless foundExcluded == true %}
+                        {% assign textAreaThirdPartyProperties = textAreaThirdPartyProperties
+                            | append: "# "
+                            | append: config.shortDescription | strip_html
+                            | append: "&#13;&#10;"
+                            | append: "# "
+                            | append: config.name | replace: "[]", "[0]"
+                            | append: "="
+                            | append: config.defaultValue
+                            | append: "&#13;&#10;"
+                            | append: "&#13;&#10;" %}
+
+                        {% capture renderedProperties %}{% include casproperty.html
+                            name=config.name
+                            owner=config.owner
+                            defaultValue=config.defaultValue
+                            description=config.description
+                            duration=config.duration
+                            expressionLanguage=config.expressionLanguage
+                            deprecationLevel=config.deprecationLevel
+                            deprecationReplacement=config.deprecationReplacement %}{% endcapture %}
+                        {{ renderedProperties | markdownify }}
+
+                    {% endunless %}
+                {% endif %}
+            {% endfor %}
+
+            {% for exm in thirdPartyStartsWith %}
+                           
+                {% assign startsWithResults = config.name | split: exm %}
+
+                {% if startsWithResults[0].size == 0 or config.name == exm[0] %}
+            
+                    {% assign foundExcluded = false %}
+                    {% for ex in excludes %}
+                        {% if config.name contains ex %}
+                            {% assign foundExcluded = true %}
+                        {% endif %}
+                    {% endfor %}
+                    {% unless foundExcluded == true %}
+                    
+                        {% assign textAreaThirdPartyProperties = textAreaThirdPartyProperties
+                            | append: "# "
+                            | append: config.shortDescription | strip_html
+                            | append: "&#13;&#10;"
+                            | append: "# "
+                            | append: config.name | replace: "[]", "[0]"
+                            | append: "="
+                            | append: config.defaultValue
+                            | append: "&#13;&#10;"
+                            | append: "&#13;&#10;" %}
+                        {% capture renderedProperties %}{% include casproperty.html
+                            name=config.name
+                            owner=config.owner
+                            defaultValue=config.defaultValue
+                            description=config.description
+                            duration=config.duration
+                            expressionLanguage=config.expressionLanguage
+                            deprecationLevel=config.deprecationLevel
+                            deprecationReplacement=config.deprecationReplacement %}{% endcapture %}
+                        {{ renderedProperties | markdownify }}
+
+                    {% endunless %}
+                {% endif %}
+
+            {% endfor %}
+
+        {% endfor %}
+
+    {% endfor %}
+
+    </tbody>
+</table>
+
+<textarea style="position:absolute; left: -10000px;"
+id="copyAreaThirdPartyProperties{{ thirdPartyPropertiesRandomNumber }}">{{ textAreaThirdPartyProperties }}</textarea>
+
+{% unless include.disablePagination == "true" %} 
+<script>
+    setTimeout(function(){ 
+        next('tableThirdPartyProperties{{ thirdPartyPropertiesRandomNumber }}');
+        let c = $("#tableThirdPartyProperties{{ thirdPartyPropertiesRandomNumber }} li.property-name code").length;
+        if (c <= ROWS) {
+            $("#navThirdPartyProperties{{ thirdPartyPropertiesRandomNumber }}").closest("table").remove()
+        }
+    }, 1000);
+</script>
+{% endunless %}

@@ -1,0 +1,54 @@
+<nav id="paginationThemeNav">
+    <ul class="pagination pagination-sm justify-content-end">
+        <li class="page-item">
+            <a class="page-link" href="javascript:previous('table-theme-properties')" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span> Previous
+            </a>
+        </li>
+        <li class="page-item">
+            <a class="page-link active" href="javascript:next('table-theme-properties')">
+                Next <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+<table class="paginated-table" id="table-theme-properties">
+    <thead>
+        <tr>
+          <th>Name</th>
+          <th>Value</th>
+          <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for cfg in site.data[siteDataVersion]["theme-properties"] %}
+            {% assign configBlock = cfg[1] %}
+            {% for config in configBlock %}
+            <tr>
+                <td>
+                    <code>{{ config.name }}</code>
+                </td>
+                <td>
+                    <code>{{ config.value }}</code>
+                </td>
+                <td>
+                    {{ config.description }}
+                </td>
+            </tr>
+            {% endfor %}
+        {% endfor %}
+    </tbody>
+</table>
+<script>
+    setTimeout(function()
+    {
+        next('table-theme-properties');
+
+        let c = $("#table-theme-properties tbody tr").length;
+        if (c <= ROWS) {
+            $("#paginationThemeNav").hide();
+        }
+
+    }, 500);
+</script>
+
